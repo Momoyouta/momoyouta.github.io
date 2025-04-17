@@ -1,10 +1,6 @@
 server:
   port: 8080
   address: 0.0.0.0
-  ssl:
-    protocol: TLS
-    key-store: classpath:momoyouta.asia.pfx
-    key-store-password: bm40xi6q7rw4
 spring:
   application:
     name: web_ani
@@ -13,5 +9,10 @@ spring:
     username: root
     password: 'a102703407'
     driver-class-name: com.mysql.cj.jdbc.Driver
+  security:
+    user:
+      name: admin
+      password:  admin
+
 
 

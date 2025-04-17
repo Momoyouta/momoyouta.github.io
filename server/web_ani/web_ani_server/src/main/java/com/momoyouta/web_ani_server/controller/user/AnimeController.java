@@ -8,8 +8,10 @@ import com.momoyouta.web_ani_pojo.dto.AniAddDTO;
 import com.momoyouta.web_ani_pojo.dto.DirCondition;
 import com.momoyouta.web_ani_pojo.entity.Animation;
 import com.momoyouta.web_ani_server.service.AniService;
+import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class AnimeController {
     public Result<Animation> getOne(@RequestParam Long id) {
         Animation animation=aniService.getById(id);
         if(animation==null)
-            return Result.error("番不存在");
+            return Result.error(2,"番不存在");
         return Result.success(animation);
     }
 

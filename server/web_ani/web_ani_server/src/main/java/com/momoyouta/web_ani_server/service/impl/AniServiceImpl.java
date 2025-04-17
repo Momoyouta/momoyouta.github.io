@@ -69,7 +69,7 @@ public class AniServiceImpl implements AniService {
         animation.setUpdateTime(LocalDateTime.now().withNano(0).withSecond(0));
         animation.setBan(1);
         if(aniMapper.getByName(animation.getName())!=null){
-            return Result.error("番剧已存在");
+            return Result.error(2,"番剧已存在");
         }
         aniMapper.insert(animation);
         return Result.success("添加成功");
@@ -80,7 +80,7 @@ public class AniServiceImpl implements AniService {
         animation.setUpdateTime(LocalDateTime.now().withNano(0).withSecond(0));
         animation.setBan(0);
         if(aniMapper.getByName(animation.getName())!=null){
-            return Result.error("番剧已存在");
+            return Result.error(2,"番剧已存在");
         }
         aniMapper.insert(animation);
         return Result.success("添加成功");

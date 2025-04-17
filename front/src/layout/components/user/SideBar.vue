@@ -18,7 +18,7 @@ import {useRouter} from "vue-router";
 
 const router=useRouter()
 const ulItem=reactive([
-  {id:1,name:'首页',path:'/',icon:'home-g'},
+  {id:1,name:'首页',path:'/home',icon:'home-g'},
   {id:0,name:'---',path:'#',icon:''},
   {id:2,name:'目录',path:'/directory',icon:'mulu'},
   {id:3,name:'安利广场',path:'/recmground',icon:'tuijian'},
@@ -48,7 +48,7 @@ function init(){
 }
 function routeChange(item,index){
   if(item.path==='#') return;
-  let path='/user'+item.path;
+  let path=item.path;
   router.push(path);
   activeLi.value=index;
 }

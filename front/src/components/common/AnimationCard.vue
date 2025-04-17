@@ -5,7 +5,8 @@
         <span class="date" v-if="showCon.score">{{ani.score}}</span>
         <span class="date" v-if="showCon.date">{{ani.updateTime}}</span>
         <span class="date" v-if="showCon.score">{{ani.score}}</span>
-        <span class="title" v-if="showCon.state">{{ aniState }}</span>
+        <span class="title" style="z-index: 2" v-if="showCon.state">{{ aniState }}</span>
+      <div style="position: absolute;bottom: 0;height: 4rem;width: 100%;background: linear-gradient(to top,#4c4b4b,rgba(0,0,0,0));"></div>
     </div>
     <div class="content" v-if="showCon.name">
       {{ ani.name }}

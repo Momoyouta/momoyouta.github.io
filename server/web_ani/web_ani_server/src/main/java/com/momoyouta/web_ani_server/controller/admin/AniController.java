@@ -28,7 +28,7 @@ public class AniController {
     public Result<Animation> getOne(@RequestParam Long id) {
         Animation animation=aniService.getById(id);
         if(animation==null)
-            return Result.error("番不存在");
+            return Result.error(2,"番不存在");
         return Result.success(animation);
     }
 

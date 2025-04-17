@@ -37,7 +37,9 @@
       </div>
       <div class="rbottom-box">
         <div class="profile">
-          <strong>简介：</strong>{{anime.animation.description}}
+          <el-text line-clamp="4" style="color: black">
+            <strong>简介：</strong>{{anime.animation.description}}
+          </el-text>
         </div>
         <div class="tags">
           <ul class="tag-list">

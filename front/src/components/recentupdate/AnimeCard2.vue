@@ -4,11 +4,12 @@
       <div class="class">
         日漫
       </div>
-      <div class="cover" @click="gotoDetail">
+      <div class="cover" @click="gotoDetail" style="overflow: hidden">
         <div class="state">
           {{anime.ep}} 集全
         </div>
         <img :src="anime.image">
+        <div style="position: absolute;bottom: 0;height: 3rem;width: 100%;background: linear-gradient(to top,#4c4b4b,rgba(0,0,0,0));"></div>
       </div>
       <div class="info">
         <span class="title" @click="gotoDetail">{{anime.name}}</span>
@@ -50,7 +51,7 @@ function gotoDetail(){
   router.push({
     name:'getAnimeDetail',
     params:{
-      animeid:props.anime.id,
+      animeid:props.anime.animeId,
     },
   });
 }
@@ -100,6 +101,7 @@ function gotoDetail(){
   justify-content: center;
   z-index: 2;
   cursor: pointer;
+  border-radius: 0.4rem;
 }
 .state{
   position: absolute;
@@ -113,7 +115,6 @@ function gotoDetail(){
 img{
   width: 6.5rem;
   aspect-ratio: var(--anime-cover-ratio);
-  border-radius: 0.4rem;
 }
 .info{
   margin-left: 7rem;

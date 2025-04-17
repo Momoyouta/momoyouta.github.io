@@ -8,7 +8,7 @@
         <span class="iconfont icon-jilu"></span>
         <span class="his-span">历史记录</span>
       </div>
-        <button class="login-btn" v-if="!isLogin">
+        <button class="login-btn" v-if="!isLogin" @click="handleLogin">
           <span class="iconfont icon-geren"></span>登录</button>
         <a class="profile" v-if="isLogin">
           <img class="user-image" :src="user.image" alt="">
@@ -33,6 +33,9 @@ function search(keyword){
     name:'searchAnime',
     params:{keyword},
   })
+}
+function handleLogin(){
+  routre.push('/login');
 }
 </script>
 

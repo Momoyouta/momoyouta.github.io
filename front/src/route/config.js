@@ -12,43 +12,54 @@ import WeekList from "@/components/home/WeekList.vue";
 import WeeklistTest from "@/components/test/WeeklistTest.vue";
 import WeeklistMG from "@/components/admin/WeeklistMG.vue";
 import {AXIOS_URL} from "@/common/axios_url.js";
-import HomePage from "@/layout/components/user/page/HomePage.vue";
-import AnimefollowPage from "@/layout/components/user/page/AnimefollowPage.vue";
-import DirectoryPage from "@/layout/components/user/page/DirectoryPage.vue";
-import RecentUpdatePage from "@/layout/components/user/page/RecentUpdatePage.vue";
-import UserTest from "@/layout/components/user/page/UserTest.vue";
-import AnimeDetail from "@/layout/components/user/page/AnimeDetailPage.vue";
-import AnimeSearchPage from "@/layout/components/user/page/AnimeSearchPage.vue";
-import RecgroundPage from "@/layout/components/user/page/RecgroundPage.vue";
+import HomePage from "@/page/HomePage.vue";
+import AnimefollowPage from "@/page/AnimefollowPage.vue";
+import DirectoryPage from "@/page/DirectoryPage.vue";
+import RecentUpdatePage from "@/page/RecentUpdatePage.vue";
+import UserTest from "@/page/UserTest.vue";
+import AnimeDetail from "@/page/AnimeDetailPage.vue";
+import AnimeSearchPage from "@/page/AnimeSearchPage.vue";
+import RecgroundPage from "@/page/RecgroundPage.vue";
+import Login from "@/page/Login.vue";
+import LayOut from "@/layout/LayOut.vue";
 
 const routes =[
-    {path:'/admin/:pathMatch(.*)*', components:{SideNavbar:adminSideBar,TopNavbar:adminTopBar}},
-    {path:`/admin/${ROUTE_PATH.ADMIN_ANI}/${ROUTE_PATH.ADMIN_ANI_ADD}`,components:{SideNavbar:adminSideBar,main:AddAni,TopNavbar:adminTopBar}},
-    {path:`/admin/${ROUTE_PATH.ADMIN_ANI}/${ROUTE_PATH.ADMIN_ANI_UPDATE}`,components:{SideNavbar:adminSideBar,main:UpdateAni,TopNavbar:adminTopBar}},
-    {path:`/admin/${ROUTE_PATH.ADMIN_WEEKLIST}`,components:{SideNavbar:adminSideBar,main:WeeklistMG,TopNavbar:adminTopBar}},
-    {path:`/admin/test/anicard`,components:{SideNavbar:adminSideBar,main:test,TopNavbar:adminTopBar}},
-    {path:`/admin/test/weeklist`,components:{SideNavbar:adminSideBar,main:WeeklistTest,TopNavbar:adminTopBar}},
+    {path:'/login',component:Login},
+    {
+        path:'/',
+        component:LayOut,
+        children:[
+            {path:'admin/:pathMatch(.*)*', components:{SideNavbar:adminSideBar,TopNavbar:adminTopBar}},
+            {path:`admin/${ROUTE_PATH.ADMIN_ANI}/${ROUTE_PATH.ADMIN_ANI_ADD}`,components:{SideNavbar:adminSideBar,main:AddAni,TopNavbar:adminTopBar}},
+            {path:`admin/${ROUTE_PATH.ADMIN_ANI}/${ROUTE_PATH.ADMIN_ANI_UPDATE}`,components:{SideNavbar:adminSideBar,main:UpdateAni,TopNavbar:adminTopBar}},
+            {path:`admin/${ROUTE_PATH.ADMIN_WEEKLIST}`,components:{SideNavbar:adminSideBar,main:WeeklistMG,TopNavbar:adminTopBar}},
+            {path:`admin/test/anicard`,components:{SideNavbar:adminSideBar,main:test,TopNavbar:adminTopBar}},
+            {path:`admin/test/weeklist`,components:{SideNavbar:adminSideBar,main:WeeklistTest,TopNavbar:adminTopBar}},
 
-    {path:`/user/recmground`,alias:'/recmground',components:{SideNavbar:userSideBar,main:RecgroundPage,TopNavbar:userTopBar}},
-    {path:`/user/animefollow`,alias:'/animefollow',components:{SideNavbar:userSideBar,main:AnimefollowPage,TopNavbar:userTopBar}},
-    {path:`/user/directory`,alias:'/directory',components:{SideNavbar:userSideBar,main:DirectoryPage,TopNavbar:userTopBar}},
-    {path:`/user/recentupdate`,alias:'/recentupdate',components:{SideNavbar:userSideBar,main:RecentUpdatePage,TopNavbar:userTopBar}},
-    {name:'getAnimeDetail' ,path:`/user/ani/:animeid`,alias:'/ani/:animeid',components:{SideNavbar:userSideBar,main:AnimeDetail,TopNavbar:userTopBar}
-        ,props: {
-            SideNavbar: false,
-            main: true,
-            TopNavbar: false,
-        }
+            {path:`recmground`,components:{SideNavbar:userSideBar,main:RecgroundPage,TopNavbar:userTopBar}},
+            {path:`animefollow`,components:{SideNavbar:userSideBar,main:AnimefollowPage,TopNavbar:userTopBar}},
+            {path:`directory`,components:{SideNavbar:userSideBar,main:DirectoryPage,TopNavbar:userTopBar}},
+            {path:`recentupdate`,components:{SideNavbar:userSideBar,main:RecentUpdatePage,TopNavbar:userTopBar}},
+            {name:'getAnimeDetail' ,path:`ani/:animeid`,components:{SideNavbar:userSideBar,main:AnimeDetail,TopNavbar:userTopBar}
+                ,props: {
+                    SideNavbar: false,
+                    main: true,
+                    TopNavbar: false,
+                }
+            },
+            {name:'searchAnime' ,path:`search/:keyword`,components:{SideNavbar:userSideBar,main:AnimeSearchPage,TopNavbar:userTopBar}
+                ,props: {
+                    SideNavbar: false,
+                    main: true,
+                    TopNavbar: false,
+                }
+            },
+            {path:`test`,components:{SideNavbar:userSideBar,main:UserTest,TopNavbar:userTopBar}},
+            {path:'home',components:{SideNavbar:userSideBar,main:HomePage,TopNavbar:userTopBar}},
+        ]
     },
-    {name:'searchAnime' ,path:`/user/search/:keyword`,alias:'/search/:keyword',components:{SideNavbar:userSideBar,main:AnimeSearchPage,TopNavbar:userTopBar}
-        ,props: {
-            SideNavbar: false,
-            main: true,
-            TopNavbar: false,
-        }
-    },
-    {path:`/user/test`,alias:'/test',components:{SideNavbar:userSideBar,main:UserTest,TopNavbar:userTopBar}},
-    {path:'/user/:pathMatch(.*)*',alias:'/',components:{SideNavbar:userSideBar,main:HomePage,TopNavbar:userTopBar}},
+
+
 ]
 
 export  const router = createRouter({
@@ -57,11 +68,5 @@ export  const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const paths = to.path.split("/");
-    if (paths[1] === 'user') {
-        const newPath = paths[2] === '' ? '/' : to.path.slice(5);
-        router.replace(newPath); // 替换当前历史记录
-        return; // 终止后续逻辑
-    }
     next();
 })

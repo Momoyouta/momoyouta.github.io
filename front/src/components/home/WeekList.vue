@@ -46,7 +46,6 @@ function changeList(day){
       }
     })
         .then(res=>{
-          console.log(res.data.data)
           for(let item of res.data.data){
             let anttp={
               show:{

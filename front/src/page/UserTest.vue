@@ -5,8 +5,8 @@
 
 <script setup>
 
-import AnimeDetail from "@/layout/components/user/page/AnimeDetailPage.vue";
-import AnimeSearchPage from "@/layout/components/user/page/AnimeSearchPage.vue";
+import AnimeDetail from "@/page/AnimeDetailPage.vue";
+import AnimeSearchPage from "@/page/AnimeSearchPage.vue";
 </script>
 
 <style scoped>
