@@ -11,7 +11,7 @@ import test from "@/components/test/AnicardTest.vue";
 import WeekList from "@/components/home/WeekList.vue";
 import WeeklistTest from "@/components/test/WeeklistTest.vue";
 import WeeklistMG from "@/components/admin/WeeklistMG.vue";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import HomePage from "@/page/HomePage.vue";
 import AnimefollowPage from "@/page/AnimefollowPage.vue";
 import DirectoryPage from "@/page/DirectoryPage.vue";

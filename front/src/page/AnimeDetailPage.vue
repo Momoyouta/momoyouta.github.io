@@ -15,20 +15,20 @@ import VedioList from "@/components/animedetail/VedioList.vue";
 import {onMounted, reactive, ref} from "vue";
 import {useRoute} from "vue-router";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 const route = useRoute();
 const anime=ref({});
 const props=defineProps({
   animeid: { type: String, required: true },
 })
 const axs=axios.create({
-  baseURL:`${AXIOS_URL.BASIC}`,
+  baseURL:`${apiUtils.BASIC}`,
 })
 onMounted(()=>{
   init();
 })
 async function init(){
-  const res=await axs.get(`${AXIOS_URL.USER_GET_ANIME_DETAIL}/${props.animeid}`)
+  const res=await axs.get(`${apiUtils.USER_GET_ANIME_DETAIL}/${props.animeid}`)
       .then(res=>res.data.data)
       .catch(err=>{console.log(err)});
   console.log("anidetail res:"+JSON.stringify(res));

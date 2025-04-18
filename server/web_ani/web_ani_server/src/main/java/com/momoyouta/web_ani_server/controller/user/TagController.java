@@ -21,7 +21,7 @@ public class TagController {
     TagService tagService;
 
     @PutMapping("/updatecount")
-    public Result updateCount(){
+    public Result<String> updateCount(){
         tagService.updateCount();
         return Result.success("更新成功");
     }

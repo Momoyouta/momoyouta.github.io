@@ -19,10 +19,10 @@
 import AnimationCard from "@/components/common/AnimationCard.vue";
 import {onMounted, onUnmounted, reactive, ref} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 const aniList=reactive([]);
 const axios_instance=axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 let isAll=0;
 let aniCount=1;
@@ -35,7 +35,7 @@ onUnmounted(()=>{
   window.removeEventListener("scroll",throttle(checkScroll))
 })
 function getData(){
-  axios_instance.get(`/admin${AXIOS_URL.SEARCH_ANI}/bynamelike`,{
+  axios_instance.get(`/admin${apiUtils.SEARCH_ANI}/bynamelike`,{
     params:{
       name: '',
       page: aniCount,

@@ -13,11 +13,10 @@
 
 
 <script setup>
-import AnimationCard from "@/components/common/AnimationCard.vue";
 import {onMounted, reactive} from "vue";
 import AnimeCard2 from "@/components/recentupdate/AnimeCard2.vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 const animes=reactive([]);
 const anime_tp={
   name: "史莱姆尼普鲁",
@@ -29,13 +28,13 @@ const anime_tp={
   ep: 12
 }
 const axs=axios.create({
-  baseURL:AXIOS_URL.BASIC
+  baseURL:apiUtils.BASIC
 })
 onMounted(()=>{
   getData();
 })
 function getData(){
-  axs.get(`/user${AXIOS_URL.RECENT_UPDATE_ANI}`)
+  axs.get(`/user${apiUtils.RECENT_UPDATE_ANI}`)
       .then((res)=>{
         console.log(res.data.data);
         animes.push(...res.data.data);

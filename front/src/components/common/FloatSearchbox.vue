@@ -48,7 +48,7 @@
 import SearchBox from "@/components/common/SearchBox.vue";
 import {onMounted, reactive, ref} from "vue";
 import AnimationCard from "@/components/common/AnimationCard.vue";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import axios from "axios";
 import {tranToCard} from "@/hooks/animeCard.js";
 const emit=defineEmits(['floatClose','getAniCart']);
@@ -57,7 +57,7 @@ const aniCart=reactive([])
 const cartVisiable=ref(false);
 const aniChoose=reactive([]);
 const axios_instance=axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 onMounted(()=>{
 
@@ -88,7 +88,7 @@ function submit(){
 function search(name){
   aniList.length=0;
   aniChoose.length=0;
-  axios_instance.get(`/admin${AXIOS_URL.SEARCH_ANI}/bynamelike`,{
+  axios_instance.get(`/admin${apiUtils.SEARCH_ANI}/bynamelike`,{
     params:{
       name: name,
       page: 1,

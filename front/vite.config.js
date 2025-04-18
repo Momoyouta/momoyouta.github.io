@@ -20,5 +20,5 @@ export default defineConfig({
   server:{
     port: 8081,
   },
-  base: '/home',
+  base: '/',
 })

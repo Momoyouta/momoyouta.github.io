@@ -73,7 +73,7 @@
 import AnimationCard from "@/components/common/AnimationCard.vue";
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import FloatSearchbox from "@/components/common/FloatSearchbox.vue";
 import {tranToCard} from "@/hooks/animeCard.js";
 
@@ -83,7 +83,7 @@ const totAni=ref(0);
 const aniCount=reactive([0,0,0,0,0,0,0]);
 const showModal=ref(false)
 const axios_is=axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 const selectYear=ref(2024);
 const selectMonth=ref(4);
@@ -95,7 +95,7 @@ onMounted(()=>{
 });
 async function getData(){
   for(let day=1;day<=7;day++){
-    await axios_is.get(`/user${AXIOS_URL.WEEKLIST_DAY_RQ}`,{
+    await axios_is.get(`/user${apiUtils.WEEKLIST_DAY_RQ}`,{
       params:{
         day: day,
       }
@@ -151,7 +151,7 @@ function updateDay(day){
     }
     dayList.push(wk);
   }
-  axios_is.put(`${AXIOS_URL.WEEKLIST_DAY_UPDATE}/${day}`,dayList)
+  axios_is.put(`${apiUtils.WEEKLIST_DAY_UPDATE}/${day}`,dayList)
       .then(res=>{
         console.log(res.data)
       })
@@ -164,7 +164,7 @@ function updateAll(){
 }
 function load(year,month){
   isUpdate.value=true;
-  axios_is.get(AXIOS_URL.WEEKLIST_QUARTER_GET,{
+  axios_is.get(apiUtils.WEEKLIST_QUARTER_GET,{
       params:{
         quarter:year+'年'+month+'月',
       }

@@ -99,7 +99,7 @@
 
 import {computed, reactive, ref, toRef, toRefs, watch} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import SearchBox from "@/components/common/SearchBox.vue";
 const imgDefaultSrc="/src/assets/img/ani_add_error.png";
 const imgSrcPreview = ref(imgDefaultSrc);
@@ -133,7 +133,7 @@ const activePage=ref(1);
 let pageSize=4; ////
 let searchName;
 const axios_instance = axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 function updateTagCount(){
   axios_instance.put('/admin/tag/updatecount',{})
@@ -148,7 +148,7 @@ function search(name){
     return;
   currentPage=1;
   searchName=name;
-  axios_instance.get(`/admin${AXIOS_URL.SEARCH_PAGE_ANI}`,{
+  axios_instance.get(`/admin${apiUtils.SEARCH_PAGE_ANI}`,{
     params:{
       name: name
     }
@@ -179,7 +179,7 @@ function search(name){
 }
 
 function searchPage(name,page){
-  axios_instance.get(`/admin${AXIOS_URL.SEARCH_ANI}/bynamelike`,{
+  axios_instance.get(`/admin${apiUtils.SEARCH_ANI}/bynamelike`,{
     params:{
       name: name,
       page: page,
@@ -240,7 +240,7 @@ function setAni(name){
   console.log("set",name)
   detail.value=true;
   Object.assign(aniDTO,aniList.find(ani=> ani.name === name));
-  // axios_instance.get(`/admin${AXIOS_URL.SEARCH_ANI}/byname`,{
+  // axios_instance.get(`/admin${apiUtils.SEARCH_ANI}/byname`,{
   //   params:{
   //     name: name,
   //   }
@@ -259,7 +259,7 @@ function back(){
 function lockAni(name,ban){
   const ani_tp={name:name,ban:ban^1}
   console.log("lock",ani_tp)
-  axios_instance.put(`${AXIOS_URL.UPDATE_ANI}`,ani_tp)
+  axios_instance.put(`${apiUtils.UPDATE_ANI}`,ani_tp)
       .then(res=>{
         console.log(res.data)
         const targetAni = aniList.find(ani => ani.name === name);
@@ -281,7 +281,7 @@ function delAni(event,name){
   if (liElement) {
     liElement.style.display = 'none'; // 将该 li 设置为隐藏
   }
-  axios_instance.put(`${AXIOS_URL.DEL_ANI}`+"/"+name,name)
+  axios_instance.put(`${apiUtils.DEL_ANI}`+"/"+name,name)
       .then(res=>{
         console.log(res.data)
 
@@ -307,7 +307,7 @@ function submitt() {
     return
   }
   if(!imgExist){alert("图片不存在");return;}
-  axios_instance.put(`${AXIOS_URL.UPDATE_ANI}`,aniDTO)
+  axios_instance.put(`${apiUtils.UPDATE_ANI}`,aniDTO)
       .then(res => {
         if(res.data.code==1){
           alert("修改成功")

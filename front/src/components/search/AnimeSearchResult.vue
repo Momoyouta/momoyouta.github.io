@@ -43,12 +43,12 @@
 import {onMounted, onUnmounted, reactive, watch} from "vue";
 import errImgUrl from "/src/assets/img/ani_add_error.png";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import {throttle,checkScroll} from '@/hooks/commonHook.js'
 const animes=reactive([]);
 const props = defineProps(['keyword'])
 const axs=axios.create({
-  baseURL:AXIOS_URL.BASIC
+  baseURL:apiUtils.BASIC
 })
 let isAll=0;
 let offset=0;
@@ -64,7 +64,7 @@ function handlerScroll(value){
 }
 function getData(){
   if(isAll===1) return;
-  axs.get(`/user${AXIOS_URL.KEYWORD_SEARCH}`,{
+  axs.get(`/user${apiUtils.KEYWORD_SEARCH}`,{
     params:{
       keyword:props.keyword,
       offset: offset,

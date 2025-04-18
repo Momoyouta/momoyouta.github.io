@@ -38,7 +38,7 @@
 import {computed, ref} from "vue";
 import axios from "axios";
 import {KEY} from "../../../../private/key.js";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 
 const result=ref();
 const axsBangumi=axios.create({
@@ -49,7 +49,7 @@ const axsBangumi=axios.create({
   }
 })
 const axsServer=axios.create({
-  baseURL:AXIOS_URL.BASIC,
+  baseURL:apiUtils.BASIC,
 })
 const apiUrl="/v0/subjects"
 const bangumiApi=ref(0)
@@ -194,7 +194,7 @@ async function getAnime(){
   }
 }//40
 async function writeToServer(animeDto){
-  return await axsServer.put(AXIOS_URL.BANGUMI_BASE_ADD,animeDto)
+  return await axsServer.put(apiUtils.BANGUMI_BASE_ADD,animeDto)
       .then(res=>{
         return res.data.data;
       })

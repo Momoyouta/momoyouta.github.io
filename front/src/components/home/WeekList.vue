@@ -28,11 +28,11 @@
 import AnimationCard from "@/components/common/AnimationCard.vue";
 import {onMounted, reactive, ref} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 const aniList=reactive([[],[],[],[],[],[],[]]);
 const activeDay=ref(0);
 const axios_is=axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 onMounted(()=>{
   changeList(0);
@@ -40,7 +40,7 @@ onMounted(()=>{
 function changeList(day){
   activeDay.value=day
   if(aniList[activeDay.value].length==0){
-    axios_is.get(`/user${AXIOS_URL.WEEKLIST_DAY_RQ}`,{
+    axios_is.get(`/user${apiUtils.WEEKLIST_DAY_RQ}`,{
       params:{
         day: day+1,
       }

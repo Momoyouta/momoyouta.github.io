@@ -1,12 +1,29 @@
 <template>
   <div class="divide"></div>
-  <AnimeSearchPage keyword="魔王"></AnimeSearchPage>
+  <el-button @click="testJWT">解析jwt</el-button>
 </template>
 
 <script setup>
 
 import AnimeDetail from "@/page/AnimeDetailPage.vue";
 import AnimeSearchPage from "@/page/AnimeSearchPage.vue";
+import axios from "axios";
+import {apiUtils} from "@/common/apiUtils.js";
+function testJWT(){
+  axios.get(`${apiUtils.BASIC}/user/testJWT`, {
+    headers:{
+      'token': localStorage.getItem('accessToken'),
+    },
+    params: {
+      jwt:localStorage.getItem("accessToken"),
+    }
+  }).then(res => {
+    console.log(res.data);
+  }).catch(err => {
+    console.log(err)
+  })
+}
+
 </script>
 
 <style scoped>

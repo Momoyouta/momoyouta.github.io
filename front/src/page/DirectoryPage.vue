@@ -26,7 +26,7 @@ import TagList from "@/components/common/TagList.vue";
 import AnimationCard from "@/components/common/AnimationCard.vue";
 import {onMounted, onUnmounted, reactive, ref, watch} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 const titles=['类型','年份','排序']
 const tags=reactive([[],['全部',2024,2025],['时间排序','评分排序']])
 import {tranToCard} from '@/hooks/animeCard.js'
@@ -45,7 +45,7 @@ let aniCount=0;
 const isUpdate=ref(true);
 const aniList=reactive([]);
 const axios_instance=axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 onMounted(()=>{
   getHotTag();
@@ -65,7 +65,7 @@ function selectAnimes(){
     abortController.value.abort();
   }
   abortController.value = new AbortController();
-  axios_instance.post(`/user${AXIOS_URL.DIR_SELECT_ANI}`,condition.value,{
+  axios_instance.post(`/user${apiUtils.DIR_SELECT_ANI}`,condition.value,{
     signal: abortController.value.signal
   })
       .then(res=>{
@@ -77,7 +77,7 @@ function selectAnimes(){
   isUpdate.value=false;
 }
 function getHotTag(){
-  axios_instance.get(`/user${AXIOS_URL.HOT_TAG}`)
+  axios_instance.get(`/user${apiUtils.HOT_TAG}`)
       .then(res=>{
         tags[0]=res.data.data.map(item=>{return item.name;});
         tags[0].unshift("全部");

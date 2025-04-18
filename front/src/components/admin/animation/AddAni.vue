@@ -62,7 +62,7 @@
 
 import {computed, reactive, ref, watch} from "vue";
 import axios from "axios";
-import {AXIOS_URL} from "@/common/axios_url.js";
+import {apiUtils} from "@/common/apiUtils.js";
 import LayOut from "@/App.vue";
 import BangumiApi from "@/components/admin/animation/BangumiApi.vue";
 const imgDefaultSrc="/src/assets/img/ani_add_error.png";
@@ -88,7 +88,7 @@ const checkbox=computed({
   }
 })
 const axios_instance = axios.create({
-  baseURL: `${AXIOS_URL.BASIC}`,
+  baseURL: `${apiUtils.BASIC}`,
 })
 
 function handleImgupload(event){
@@ -110,7 +110,7 @@ function submitt() {
   }
   if(!imgExist){alert("图片不存在");return;}
   console.log(aniDTO.ep)
-  axios_instance.put(`${AXIOS_URL.ADD_ANI}`,aniDTO)
+  axios_instance.put(`${apiUtils.ADD_ANI}`,aniDTO)
   .then(res => {
     if(res.data.code==1){alert("添加成功")}
     else{alert("番剧已存在，添加失败");}})
