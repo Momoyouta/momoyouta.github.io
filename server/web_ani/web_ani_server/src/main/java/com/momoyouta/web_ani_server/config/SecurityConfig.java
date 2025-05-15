@@ -34,17 +34,17 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth ->
                 auth
-                        .requestMatchers("/public").permitAll()
-                         .anyRequest().permitAll())
+                        .requestMatchers("/public").permitAll()//公共接口都放行
+                         .anyRequest().permitAll())//其他接口通过注解@@PreAuthorize进行权限控制
                 .csrf(AbstractHttpConfigurer::disable);
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);//配置Filter
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:8081","https://momoyouta.github.io","https://www.momoyouta.fun")); // 允许所有来源
+        config.setAllowedOriginPatterns(List.of("http://localhost:8081","https://momoyouta.github.io","https://www.momoyouta.fun")); // 允许源
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // 允许携带 Cookie

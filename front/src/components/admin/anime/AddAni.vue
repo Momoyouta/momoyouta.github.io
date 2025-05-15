@@ -64,7 +64,7 @@ import {computed, reactive, ref, watch} from "vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
 import LayOut from "@/App.vue";
-import BangumiApi from "@/components/admin/animation/BangumiApi.vue";
+import BangumiApi from "@/components/admin/anime/BangumiApi.vue";
 const imgDefaultSrc="/src/assets/img/ani_add_error.png";
 const imgSrcPreview = ref(imgDefaultSrc);
 let imgExist=false;

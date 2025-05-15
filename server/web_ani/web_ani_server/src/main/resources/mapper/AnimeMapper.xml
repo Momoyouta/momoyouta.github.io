@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.momoyouta.web_ani_server.mapper.AniMapper">
-    <select id="getByDirCondition" resultType="com.momoyouta.web_ani_pojo.entity.Animation">
+<mapper namespace="com.momoyouta.web_ani_server.mapper.AnimeMapper">
+    <select id="getByDirCondition" resultType="com.momoyouta.web_ani_pojo.entity.Anime">
         SELECT
         base.* ,info.start_date  FROM (
-        SELECT animation.*   FROM animation
+        SELECT anime.*   FROM anime
         INNER JOIN  animeatags tags
-        ON animation.id = tags.anime_id
+        ON anime.id = tags.anime_id
         WHERE  tags.tag_id = #{tagId}) base
         LEFT JOIN animeinfo_list info
         ON base.id = info.anime_id

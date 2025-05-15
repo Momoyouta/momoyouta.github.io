@@ -6,7 +6,7 @@
       </div>
       <div class="cover" @click="gotoDetail" style="overflow: hidden">
         <div class="state">
-          {{anime.ep}} 集全
+          {{anime.ep==anime.totalEps? anime.ep+"集全":"更新至第"+anime.ep+"集"}}
         </div>
         <img :src="anime.image">
         <div style="position: absolute;bottom: 0;height: 3rem;width: 100%;background: linear-gradient(to top,#4c4b4b,rgba(0,0,0,0));"></div>

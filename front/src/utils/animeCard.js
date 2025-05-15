@@ -9,12 +9,9 @@ export function tranToCard(data){
                 name: true
             },
             data: {
-                id:item.id,
-                name:item.name,
-                image:item.image,
+                ...item.anime,
                 ep:item.ep,
-                end:item.end,
-                updateTime:item.updateTime,
+                end:item.ep===item.totalEps?1:0,
             }
         }
         let date=anttp.data.updateTime.split("-");

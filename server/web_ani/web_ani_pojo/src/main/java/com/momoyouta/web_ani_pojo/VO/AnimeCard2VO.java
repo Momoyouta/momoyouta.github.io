@@ -16,9 +16,10 @@ public class AnimeCard2VO implements Serializable {
     private Long animeId;
     private String image;
     private String description;
-    private Integer ep;
+    private int ep;
+    private int totalEps;
     private String name;
-    private String date;
+    private Long date;
     private List<String> tags;
     private Integer state;
 }

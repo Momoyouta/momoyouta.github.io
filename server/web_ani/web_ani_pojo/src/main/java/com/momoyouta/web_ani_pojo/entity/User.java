@@ -20,6 +20,7 @@ public class User {
     private String phone;
     private String wxid;
     private String avatarUrl;
+    private String signature;
     private Long birthday;
     private int sex;
     private int status;

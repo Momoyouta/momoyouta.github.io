@@ -1,13 +1,13 @@
 <template>
   <div class="box">
     <div class="left">
-      <img :src="anime.animation.image" alt="" referrerpolicy="no-referrer">
+      <img :src="anime.anime.image" alt="" referrerpolicy="no-referrer">
       <a :href="anime.animeInfo.officialWeb">👉官方网站👈</a>
     </div>
     <div class="right">
       <div class="rtop-box">
         <div class="name-box">
-          <h2>{{ anime.animation.name }}</h2>
+          <h2>{{ anime.anime.name }}</h2>
           <div class="subtitle">
             <span>{{anime.animeInfo.startDate}}开播</span>
             <span>{{anime.animeInfo.company}}</span>
@@ -23,7 +23,7 @@
             </li>
             <li>
               <div class="state-title">状态</div>
-              <div class="state-data">{{anime.animation.ep}}集</div>
+              <div class="state-data">{{anime.ep}}集</div>
             </li>
           </ul>
         </div>
@@ -38,7 +38,7 @@
       <div class="rbottom-box">
         <div class="profile">
           <el-text line-clamp="4" style="color: black">
-            <strong>简介：</strong>{{anime.animation.description}}
+            <strong>简介：</strong>{{anime.anime.description}}
           </el-text>
         </div>
         <div class="tags">
@@ -108,7 +108,7 @@ function starInit(){
   aspect-ratio: 190/320;
   background-color: var(--side-bg);
   text-align: center;
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0 1rem;
   overflow: hidden;
 }
 .left img{

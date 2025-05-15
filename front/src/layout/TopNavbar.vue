@@ -1,7 +1,7 @@
 <template>
   <div class="wapper">
     <div class="img">
-      <img src="@/assets/img/web_icon.png" alt="" class="webicon">
+      <img src="../assets/img/web_icon.png" alt="" class="webicon">
     </div>
     <div class="main">
       <router-view name="TopNavbar"/>

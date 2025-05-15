@@ -38,9 +38,8 @@
                 <button class="edit" @click="isEditing^=true">{{ isEditing?'开启编辑':'关闭编辑' }}</button>
                 <button :disabled="isEditing" class="save" @click="updateAll">保存</button>
               </div>
-              <div class="btn-box load">
-                <span>年：<input type="text" v-model="selectYear" :disabled="isEditing" placeholder="2024..."></span>
-                <span>月：<input type="text" v-model="selectMonth" :disabled="isEditing" placeholder="1..."></span>
+              <div class="btn-box load" style="display: flex; align-items: center;">
+                <el-date-picker v-model="quarter" type="month" style="margin-right: 20px"/>
                 <button :disabled="isEditing" class="load" @click="load(selectYear,selectMonth)">读取</button>
               </div>
               <div class="btn-box">
@@ -59,7 +58,7 @@
                 <use xlink:href="#icon-chacha"></use>
               </svg>
             </a>
-            <AnimationCard class="aniCard"  style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimationCard>
+            <AnimeCard class="aniCard"  style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimeCard>
           </li>
           <li><div class="add" @click="showModal=true"></div></li>
         </ul>
@@ -70,12 +69,13 @@
 </template>
 
 <script setup>
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
 import FloatSearchbox from "@/components/common/FloatSearchbox.vue";
-import {tranToCard} from "@/hooks/animeCard.js";
+import {tranToCard} from "@/utils/animeCard.js";
+import request from "@/utils/request.js";
 
 const aniList=reactive([[],[],[],[],[],[],[],[]]);
 const activeDay=ref(1);
@@ -85,8 +85,7 @@ const showModal=ref(false)
 const axios_is=axios.create({
   baseURL: `${apiUtils.BASIC}`,
 })
-const selectYear=ref(2024);
-const selectMonth=ref(4);
+const quarter=ref(new Date());
 const isUpdate=ref(true);
 const isEditing=ref(true);
 const mostDay=ref(0);
@@ -104,9 +103,6 @@ async function getData(){
           aniList[day] = tranToCard(res.data.data);
         })
         .catch(err=>{console.log(err)});
-    // let anis=aniList[day].length;
-    // totAni.value+=anis;
-    // aniCount.push(anis);
   }
   isUpdate.value=false;
 }
@@ -151,33 +147,41 @@ function updateDay(day){
     }
     dayList.push(wk);
   }
-  axios_is.put(`${apiUtils.WEEKLIST_DAY_UPDATE}/${day}`,dayList)
-      .then(res=>{
-        console.log(res.data)
-      })
-      .catch(err=>{console.log(err)});
+  request({
+    url:`${apiUtils.WEEKLIST_DAY_UPDATE}/${day}`,
+    method:"PUT",
+    data:dayList
+  })
+  .then(res=>{
+  })
+  .catch(err=>{console.log(err)});
 }
 function updateAll(){
   for(let i=1;i<=7;i++){
     updateDay(i);
   }
 }
-function load(year,month){
+function load(){
   isUpdate.value=true;
-  axios_is.get(apiUtils.WEEKLIST_QUARTER_GET,{
-      params:{
-        quarter:year+'年'+month+'月',
-      }
+  for(let i=1;i<=7;i++){
+    aniList[i].length=0;
+  }
+  request({
+    url:apiUtils.WEEKLIST_QUARTER_GET,
+    method:"GET",
+    params:{
+      quarter:new Date(quarter.value).getTime()/1000,
+    }
   })
-      .then(res=>{
-        for(let day=1;day<=7;day++){
-          const relaylist=tranToCard(res.data.data[day]);
-          aniList[day]=relaylist;
-        }
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+  .then(res=>{
+    for(let day=1;day<=7;day++){
+      const relaylist=tranToCard(res.data.data[day]);
+      aniList[day]=relaylist;
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+  })
   isUpdate.value=false;
 }
 
@@ -267,6 +271,7 @@ input{
   width: 100%;
   text-align: center;
   margin: 0;
+  font-size: 18px;
 }
 .rectangleli{
   width: 100%;

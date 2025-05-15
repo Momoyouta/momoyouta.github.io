@@ -1,8 +1,9 @@
 package com.momoyouta.web_ani_pojo.dto;
 
-import com.momoyouta.web_ani_pojo.entity.Animation;
+import com.momoyouta.web_ani_pojo.entity.Anime;
 import com.momoyouta.web_ani_pojo.entity.AnimeInfo;
 import com.momoyouta.web_ani_pojo.entity.AnimeRating;
+import com.momoyouta.web_ani_pojo.entity.Episode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BangumiBaseAnimeDTO implements Serializable {
-    private Animation animation;
+    private Anime anime;
     private AnimeInfo animeInfo;
     private AnimeRating animeRating;
+    private Episode episode;
     private List<String> tags;
 }

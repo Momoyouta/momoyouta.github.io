@@ -1,8 +1,11 @@
 <template>
   <div class="wapper">
     <router-view name="SideNavbar"/>
-    <RouterLink to="/admin" v-if="isDev">Admin   </RouterLink>
-    <RouterLink to="/home" v-if="isDev">User</RouterLink>
+    <RouterLink to="/admin" v-if="isDev">Admin</RouterLink>
+    <el-divider/>
+    <RouterLink to="/home" v-if="isDev">Home</RouterLink>
+    <el-divider/>
+    <RouterLink to="/user" v-if="isDev">User</RouterLink>
   </div>
 </template>
 

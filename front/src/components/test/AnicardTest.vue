@@ -1,11 +1,11 @@
 <template>
- <AnimationCard class="test" :showCon="showCon" :ani="ani"></AnimationCard>
-<!--  <AnimationCard style="width: 5rem; font-size: 10px"></AnimationCard>-->
+ <AnimeCard class="test" :showCon="showCon" :ani="ani"></AnimeCard>
+<!--  <AnimeCard style="width: 5rem; font-size: 10px"></AnimeCard>-->
 </template>
 
 <script setup>
 
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 const showCon={
   score: false,
   date: true,

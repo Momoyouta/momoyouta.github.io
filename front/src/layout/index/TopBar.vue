@@ -8,11 +8,10 @@
         <span class="iconfont icon-jilu"></span>
         <span class="his-span">历史记录</span>
       </div>
-        <button class="login-btn" v-if="!isLogin" @click="handleLogin">
-          <span class="iconfont icon-geren"></span>登录</button>
-        <a class="profile" v-if="isLogin">
-          <img class="user-image" :src="user.image" alt="">
-        </a>
+      <div class="userAvatar" style="height: 100%;">
+        <UserAvatar></UserAvatar>
+      </div>
+
     </div>
   </div>
 
@@ -22,20 +21,13 @@
 import SearchBox from "@/components/common/SearchBox.vue";
 import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
+import UserAvatar from "@/components/user/UserAvatar.vue";
 const routre=useRouter();
-const isLogin=ref(0);
-const user=reactive({
-  id: 1,
-  image: 'src/assets/img/user_image_test.png',
-})
 function search(keyword){
   routre.push({
     name:'searchAnime',
     params:{keyword},
   })
-}
-function handleLogin(){
-  routre.push('/login');
 }
 </script>
 
@@ -79,27 +71,6 @@ function handleLogin(){
   margin-right: 0.2rem;
   vertical-align: middle;
 }
-.user-image{
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 100%;
-  object-fit: cover;
-  border: var(--side-bg) solid 3px;
-}
-.login-btn{
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  line-height: 1rem;
-  height: 2rem;
-  border: none;
-  font-size: 1rem;
-  color: white;
-  box-shadow: 2px 10px 2px var(--btn-login-shdow);
-  background-color: var(--btn-login);
-}
-.login-btn:hover{
-  box-shadow: 2px 10px 2px var(--btn-login-shdow-hover);
-  background-color: var(--btn-login-hover);
-}
+
 
 </style>

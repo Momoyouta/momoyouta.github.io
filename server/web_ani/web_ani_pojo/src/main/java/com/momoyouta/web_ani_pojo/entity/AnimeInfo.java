@@ -21,7 +21,7 @@ public class AnimeInfo implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long animeId;
-    private String startDate;
+    private Long startDate;
     private String weekday;
     private String company;
     private String officialWeb;

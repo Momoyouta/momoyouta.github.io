@@ -1,12 +1,13 @@
 package com.momoyouta.web_ani_common.result;
 
+import com.momoyouta.web_ani_common.enumm.ResponseCode;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class Result<T> implements Serializable {
-    private Integer code;//1成功
+    private int code;//1成功
     private String msg;
     private T data;
 
@@ -23,7 +24,7 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T>Result<T> error(int code,String msg){
+    public static <T>Result<T> error(int code, String msg){
         Result<T> result=new Result<T>();
         result.code=code;
         result.msg=msg;

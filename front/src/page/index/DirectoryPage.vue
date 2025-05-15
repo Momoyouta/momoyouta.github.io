@@ -14,7 +14,7 @@
   <div class="aniList">
     <ul class="animes">
       <li class="anime" v-for="(ani,index) in aniList">
-        <AnimationCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimationCard>
+        <AnimeCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimeCard>
       </li>
     </ul>
   </div>
@@ -23,14 +23,14 @@
 <script setup>
 
 import TagList from "@/components/common/TagList.vue";
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 import {onMounted, onUnmounted, reactive, ref, watch} from "vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
 const titles=['类型','年份','排序']
 const tags=reactive([[],['全部',2024,2025],['时间排序','评分排序']])
-import {tranToCard} from '@/hooks/animeCard.js'
-import {throttle,checkScroll} from '@/hooks/commonHook.js'
+import {tranToCard} from '@/utils/animeCard.js'
+import {throttle,checkScroll} from '@/utils/commonHook.js'
 let isAll=0
 const abortController = ref(null);
 const condition=ref({

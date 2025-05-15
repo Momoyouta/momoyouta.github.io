@@ -16,9 +16,9 @@
 
 <script setup>
 
-import SideNavbar from "./components/SideNavbar.vue";
-import TopNavbar from './components/TopNavbar.vue';
-import FooterBar from "@/layout/components/FooterBar.vue";
+import SideNavbar from "./SideNavbar.vue";
+import TopNavbar from './TopNavbar.vue';
+import FooterBar from "@/layout/FooterBar.vue";
 
 </script>
 

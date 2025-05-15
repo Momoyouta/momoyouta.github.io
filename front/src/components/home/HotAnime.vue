@@ -8,7 +8,7 @@
     <div class="content">
       <ul class="ani-ul">
         <li v-for="(ani,index) in aniList" :key="index">
-          <AnimationCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimationCard>
+          <AnimeCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimeCard>
         </li>
       </ul>
     </div>
@@ -16,10 +16,11 @@
 </template>
 
 <script setup>
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 import {onMounted, onUnmounted, reactive, ref} from "vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
+import {tranToCard} from "@/utils/animeCard.js";
 const aniList=reactive([]);
 const axios_instance=axios.create({
   baseURL: `${apiUtils.BASIC}`,
@@ -35,7 +36,7 @@ onUnmounted(()=>{
   window.removeEventListener("scroll",throttle(checkScroll))
 })
 function getData(){
-  axios_instance.get(`/admin${apiUtils.SEARCH_ANI}/bynamelike`,{
+  axios_instance.get(`/user${apiUtils.SEARCH_ANI}/bynamelike`,{
     params:{
       name: '',
       page: aniCount,
@@ -44,25 +45,9 @@ function getData(){
     }
   })
       .then(res => {
-        for(let item of res.data.data) {
-          let anttp = {
-            show: {
-              score: false,
-              date: false,
-              state: true,
-              name: true
-            },
-            data: {
-              id: item.id,
-              name: item.name,
-              image: item.image,
-              ep: item.ep,
-              end: item.end,
-              updateTime: item.updateTime,
-            }
-          }
-          aniList.push(anttp);
-        }
+        const relayList=tranToCard(res.data.data);
+        console.log(relayList);
+        aniList.push(...relayList);
         if(res.data.data.length<18){
           isAll=1;
         }

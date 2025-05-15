@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -15,16 +16,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Animation implements Serializable {
-    @TableId(type = IdType.AUTO)
+public class Anime implements Serializable {
     private Long id;
     private String name;
     private String image;
     private String description;
     private LocalDateTime updateTime;
-    private Integer score;
+    private BigDecimal score;
     private Integer ban;
-    private Integer ep;
-    private Integer end;
     //private int type;
 }

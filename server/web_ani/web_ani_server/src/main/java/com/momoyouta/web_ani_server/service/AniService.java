@@ -3,10 +3,11 @@ package com.momoyouta.web_ani_server.service;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_pojo.VO.AnimationDetailVO;
 import com.momoyouta.web_ani_pojo.VO.AnimeCard2VO;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
 import com.momoyouta.web_ani_pojo.VO.AnimeKeywordSearchVO;
 import com.momoyouta.web_ani_pojo.dto.AniAddDTO;
 import com.momoyouta.web_ani_pojo.dto.DirCondition;
-import com.momoyouta.web_ani_pojo.entity.Animation;
+import com.momoyouta.web_ani_pojo.entity.Anime;
 import com.momoyouta.web_ani_pojo.entity.AnimeInfo;
 import com.momoyouta.web_ani_pojo.entity.AnimeRating;
 
@@ -14,21 +15,21 @@ import java.util.List;
 
 public interface AniService {
 
-    Animation getById(Long id);
+    Anime getById(Long id);
 
 
-    public Result update(Animation animation);
+    public Result update(Anime anime);
 
     Result add(AniAddDTO aniAddDTO);
 
     void deleteByName(String name);
 
-    List<Animation> getByNamelike(String name,int page,int pageSize);
+    List<Anime> getByNamelike(String name, int page, int pageSize);
 
-    List<Animation> getByName(String name);
+    Anime getByName(String name);
 
     Integer getByNamelikeTotPage(String name);
-    public Result addNoDTO(Animation animation) ;
+    public Result addNoDTO(Anime anime) ;
 
     public Result addAnimeInfo(AnimeInfo animeInfo);
     public Result addAnimeRating(AnimeRating animeRating);
@@ -41,9 +42,11 @@ public interface AniService {
 
     public AnimeRating getRatingByAnimeId(Long animeId);
 
-    public List<Animation> getByDirCondition(DirCondition dirCondition);
+    public Result<List<AnimeCardVO>> getByDirCondition(DirCondition dirCondition);
 
     List<AnimeKeywordSearchVO> searchAnimeByKeyword(String keyword,int offset,int pageSize);
 
     List<AnimeCard2VO> getRecentlyUpdate();
+
+    Result<List<AnimeCardVO>> getCardByNamelike(String name, Integer page, Integer pageSize, boolean useDscp);
 }

@@ -93,7 +93,7 @@ import {reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
-import {resultPopMsg} from "@/hooks/resultPopMsg.js";
+import {resultPopMsg} from "@/utils/resultPopMsg.js";
 import {router} from "@/route/config.js";
 const axs=axios.create({
   baseURL:apiUtils.BASIC,

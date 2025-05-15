@@ -1,13 +1,13 @@
 package com.momoyouta.web_ani_server.controller.user;
 
 import com.momoyouta.web_ani_common.result.Result;
-import com.momoyouta.web_ani_pojo.entity.Animation;
-import com.momoyouta.web_ani_pojo.entity.WeekListItem;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.entity.Anime;
+import com.momoyouta.web_ani_pojo.entity.Episode;
 import com.momoyouta.web_ani_server.service.AniService;
 import com.momoyouta.web_ani_server.service.WeekListService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,16 +25,8 @@ public class WeekListController {
     private AniService aniService;
 
     @GetMapping("/request")
-    public Result<List<Animation>> getDaylist(@RequestParam Integer day){
-        List<Long> idList=weekListService.getDayAnis(day);
-        List<Animation> aniList=new ArrayList<>();
-        for(Long id : idList){
-            Animation animation=aniService.getById(id);
-            animation.setDescription("");
-            aniList.add(animation);
-        }
-        log.info(aniList.toString());
-        return Result.success(aniList);
+    public Result<List<AnimeCardVO>> getDaylist(@RequestParam Integer day){
+        return weekListService.getDaylist(day);
     }
 
 }

@@ -31,7 +31,6 @@ async function init(){
   const res=await axs.get(`${apiUtils.USER_GET_ANIME_DETAIL}/${props.animeid}`)
       .then(res=>res.data.data)
       .catch(err=>{console.log(err)});
-  console.log("anidetail res:"+JSON.stringify(res));
   anime.value = res;
 }
 </script>

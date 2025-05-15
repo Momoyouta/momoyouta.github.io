@@ -1,7 +1,8 @@
 package com.momoyouta.web_ani_server.service;
 
-import com.momoyouta.web_ani_pojo.VO.WeekListVO;
-import com.momoyouta.web_ani_pojo.entity.Animation;
+import com.momoyouta.web_ani_common.result.Result;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.entity.Anime;
 import com.momoyouta.web_ani_pojo.entity.WeekListItem;
 
 import java.util.List;
@@ -11,5 +12,7 @@ public interface WeekListService {
 
     void updateDayList(List<WeekListItem> dayList,int day);
 
-    List<List<Animation>>  getQuarterAnime(String quarter);
+    Result<List<List<AnimeCardVO>>>  getQuarterAnime(Long quarter);
+
+    Result<List<AnimeCardVO>> getDaylist(Integer day);
 }

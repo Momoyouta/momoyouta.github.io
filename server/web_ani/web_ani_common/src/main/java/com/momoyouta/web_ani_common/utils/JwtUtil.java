@@ -49,6 +49,7 @@ public class JwtUtil {
     }
     public static String generateToken(String subject) {
         return generateToken(subject, JWT_TTL);
+//        return generateToken(subject, 1000L);
     }
 
     public static String generateToken(String subject, Long ttlMillis) {

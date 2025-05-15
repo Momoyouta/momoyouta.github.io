@@ -33,7 +33,7 @@
         <ul class="ani-uul">
           <li @click.capture.stop.prevent="handlerCart(ani.data,index)" v-for="(ani,index) in aniList" :key="index">
             <div :class="{'border-helper':aniChoose[index]}">
-              <AnimationCard  style="width: 100%;font-size: 12px" :ani="ani.data" :show-con="ani.show"></AnimationCard>
+              <AnimeCard  style="width: 100%;font-size: 12px" :ani="ani.data" :show-con="ani.show"></AnimeCard>
             </div>
           </li>
         </ul>
@@ -47,10 +47,10 @@
 <script setup>
 import SearchBox from "@/components/common/SearchBox.vue";
 import {onMounted, reactive, ref} from "vue";
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 import {apiUtils} from "@/common/apiUtils.js";
 import axios from "axios";
-import {tranToCard} from "@/hooks/animeCard.js";
+import {tranToCard} from "@/utils/animeCard.js";
 const emit=defineEmits(['floatClose','getAniCart']);
 const aniList=reactive([]);
 const aniCart=reactive([])

@@ -44,7 +44,7 @@ import {onMounted, onUnmounted, reactive, watch} from "vue";
 import errImgUrl from "/src/assets/img/ani_add_error.png";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
-import {throttle,checkScroll} from '@/hooks/commonHook.js'
+import {throttle, checkScroll, formatDate} from '@/utils/commonHook.js'
 const animes=reactive([]);
 const props = defineProps(['keyword'])
 const axs=axios.create({
@@ -72,7 +72,12 @@ function getData(){
     }
   })
       .then(res=>{
-        animes.push(...res.data.data)
+        animes.push(...res.data.data.map(anime=>{
+          return {
+            ...anime,
+            date:formatDate(anime.date*1000),
+          }
+        }))
         if(res.data.data.length<12){isAll=1;}
       })
       .catch(err=>{console.log(err)})

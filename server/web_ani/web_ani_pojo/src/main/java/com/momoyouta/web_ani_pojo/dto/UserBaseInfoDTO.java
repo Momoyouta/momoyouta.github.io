@@ -16,4 +16,6 @@ public class UserBaseInfoDTO {
     private int sex;
     private Long birthday;
     private String avatarUrl;
+    private String email;
+    private String signature;
 }

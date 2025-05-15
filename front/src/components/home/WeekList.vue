@@ -17,7 +17,7 @@
    <div class="content">
     <ul class="ani-ul">
       <li v-for="(ani,index) in aniList[activeDay]" :key="index">
-        <AnimationCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimationCard>
+        <AnimeCard style="width: 100%;font-size: 1rem" :ani="ani.data" :show-con="ani.show"></AnimeCard>
       </li>
     </ul>
    </div>
@@ -25,17 +25,22 @@
 </template>
 
 <script setup>
-import AnimationCard from "@/components/common/AnimationCard.vue";
+import AnimeCard from "@/components/common/AnimeCard.vue";
 import {onMounted, reactive, ref} from "vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
+import {useCommonStore} from "@/store/commonStore.js";
+import {tranToCard} from "@/utils/animeCard.js";
 const aniList=reactive([[],[],[],[],[],[],[]]);
 const activeDay=ref(0);
 const axios_is=axios.create({
   baseURL: `${apiUtils.BASIC}`,
 })
+const commonStore=useCommonStore();
 onMounted(()=>{
-  changeList(0);
+  for(let i=0;i<7;i++){
+    changeList(i);
+  }
 });
 function changeList(day){
   activeDay.value=day
@@ -45,31 +50,17 @@ function changeList(day){
         day: day+1,
       }
     })
-        .then(res=>{
-          for(let item of res.data.data){
-            let anttp={
-              show:{
-                score: false,
-                date: true,
-                state: true,
-                name: true
-              },
-              data: {
-                id:item.id,
-                name:item.name,
-                image:item.image,
-                ep:item.ep,
-                end:item.end,
-                updateTime:item.updateTime,
-              }
-            }
-            let date=anttp.data.updateTime.split("-");
-            anttp.data.updateTime=date[1]+'/'+date[2].split("T")[0]
-            aniList[day].push(anttp);
-          }
-
-        })
-        .catch(err=>{console.log(err)});
+    .then(res=>{
+      const relaylist=tranToCard(res.data.data);
+      aniList[day]=relaylist;
+      commonStore.seasonAnime[day].push(relaylist.map(item=>{
+        return {
+          id:item.id,
+          name:item.name,
+        }
+      }));
+    })
+    .catch(err=>{console.log(err)});
   }
 }
 

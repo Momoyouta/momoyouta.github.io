@@ -1,28 +1,35 @@
 <template>
-  <div class="divide"></div>
-  <el-button @click="testJWT">解析jwt</el-button>
+  <div>
+    <el-button type="primary" @click="console.log(commonStore.seasonAnime)">pinia测试</el-button>
+    <el-button type="primary" @click="testJWT">jwt测试</el-button>
+  </div>
 </template>
 
 <script setup>
-
-import AnimeDetail from "@/page/AnimeDetailPage.vue";
-import AnimeSearchPage from "@/page/AnimeSearchPage.vue";
 import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
+import {useCartStore} from '@/store/shoppingCar.js'
+import {onMounted, ref} from "vue";
+import {useCommonStore} from "@/store/commonStore.js";
+import request from "@/utils/request.js";
 function testJWT(){
-  axios.get(`${apiUtils.BASIC}/user/testJWT`, {
-    headers:{
-      'token': localStorage.getItem('accessToken'),
-    },
-    params: {
+  request({
+    method:"get",
+    url:`${apiUtils.BASIC}/user/testJWT`,
+    params:{
       jwt:localStorage.getItem("accessToken"),
     }
   }).then(res => {
-    console.log(res.data);
+    console.log(res);
   }).catch(err => {
     console.log(err)
   })
 }
+const store=ref(0);
+const commonStore=useCommonStore()
+onMounted(()=>{
+
+})
 
 </script>
 
