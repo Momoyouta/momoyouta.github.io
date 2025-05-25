@@ -2,6 +2,7 @@ package com.momoyouta.web_ani_server.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.momoyouta.web_ani_common.result.Result;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
 import com.momoyouta.web_ani_pojo.dto.RegisterDTO;
 import com.momoyouta.web_ani_pojo.dto.UserBaseInfoDTO;
 import com.momoyouta.web_ani_pojo.dto.UserTokenDTO;
@@ -32,4 +33,8 @@ public interface UserService {
     Result<String> updateFollowProcess(Long animeId, int process);
 
     Result<String> finishFollow(Long animeId);
+
+    Result<Boolean> getFavoriteStatus(Long animeId);
+
+    Result<List<AnimeCardVO>> getFavoriteAnimes(String userId);
 }

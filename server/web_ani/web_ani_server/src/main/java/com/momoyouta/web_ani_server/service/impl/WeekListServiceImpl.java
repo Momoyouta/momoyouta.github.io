@@ -2,6 +2,7 @@ package com.momoyouta.web_ani_server.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.dto.WeekListStoreDTO;
 import com.momoyouta.web_ani_pojo.entity.Anime;
 import com.momoyouta.web_ani_pojo.entity.AnimeInfo;
 import com.momoyouta.web_ani_pojo.entity.Episode;
@@ -112,5 +113,25 @@ public class WeekListServiceImpl implements WeekListService {
         }
         log.info(aniList.toString());
         return Result.success(aniList);
+    }
+
+    @Override
+    public Result<List<WeekListStoreDTO>> getWeekListStore() {
+        LambdaQueryWrapper<WeekListItem> qw = new LambdaQueryWrapper<>();
+        qw.select(WeekListItem::getAnimeId, WeekListItem::getDays);
+        List<WeekListItem> weekListItems = weekListMapper.selectList(qw);
+        List<WeekListStoreDTO> weekListStoreDTOList = new ArrayList<>();
+        for (WeekListItem weekListItem : weekListItems) {
+            WeekListStoreDTO weekListStoreDTO = WeekListStoreDTO.builder()
+                    .animeId(weekListItem.getAnimeId())
+                    .day(weekListItem.getDays())
+                    .build();
+            weekListStoreDTOList.add(weekListStoreDTO);
+        }
+        for (WeekListStoreDTO dto : weekListStoreDTOList) {
+            Anime anime = aniService.getById(dto.getAnimeId());
+            dto.setName(anime.getName());
+        }
+        return Result.success(weekListStoreDTOList);
     }
 }

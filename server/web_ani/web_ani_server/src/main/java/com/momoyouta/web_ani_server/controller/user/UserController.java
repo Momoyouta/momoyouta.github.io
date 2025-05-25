@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_common.utils.JwtUtil;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
 import com.momoyouta.web_ani_pojo.dto.ForgotPasswordDTO;
 import com.momoyouta.web_ani_pojo.dto.RegisterDTO;
 import com.momoyouta.web_ani_pojo.dto.UserBaseInfoDTO;
@@ -102,4 +103,22 @@ public class UserController {
     public Result<String> unFavorite(@RequestParam Long animeId) {
         return userService.unFavorite(animeId);
     }
+
+    @GetMapping("/getFavoriteStatus")
+    @PreAuthorize("hasAuthority('user')")
+    public Result<Boolean> getFavoriteStatus(@RequestParam Long animeId) {
+        return userService.getFavoriteStatus(animeId);
+    }
+
+    @GetMapping("/getFavoriteAnimes")
+    @PreAuthorize("hasAuthority('user')")
+    public Result<List<AnimeCardVO>> getFavoriteAnimes(@RequestParam String userId) {
+        return userService.getFavoriteAnimes(userId);
+    }
+
+//    @GetMapping("/getFollowAnimes")
+//    @PreAuthorize("hasAuthority('user')")
+//    public Result<Boolean> getFollowAnimes(@RequestParam String userId) {
+//        return userService.getFollowAnimes(userId);
+//    }
 }

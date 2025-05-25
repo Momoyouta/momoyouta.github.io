@@ -1,22 +1,23 @@
 <template>
   <div class="main">
-    <div class="banner-box" @mouseenter="pauseAutoPlay" @mouseleave="resumeAutoPlay">
+    <div class="banner-box" style="width: 100%;height: 100%;overflow: hidden" @mouseenter="pauseAutoPlay" @mouseleave="resumeAutoPlay">
       <ul class="banner" :style="bannerStyle">
         <li v-for="ani in aniList">
           <img :src="ani.image" alt="">
         </li>
       </ul>
     </div>
-    <div class="container">
-      <ul class="detail" :style="bannerStyle">
-        <li v-for="(ani,index) in aniList" class="item">
+    <div style="background-color:rgba(0,0,0,0);overflow: hidden;width: 14rem;position: absolute;top:30%;right: 15%">
+      <ul class="detail" style="display: flex;height: 100%;width: 100%" :style="bannerStyle">
+        <li v-for="(ani,index) in aniList" style="width: 100%;height: 100%;flex-shrink: 0">
           <div class="ani-name">{{ani.name}}</div>
           <div class="ani-text">
-            <p class="ani-state">{{ani.state}}</p>
-            <p class="ani-description"></p>{{ani.description}}
+            <p style="text-align: center;margin-bottom: 0.5rem">{{ani.state}}</p>
+            <el-text :line-clamp="4" style="font-size: 0.9rem;color: var(--banner-font);text-shadow: 0 0 2px #2c2c2c;overflow: hidden;">
+              {{ani.description}}
+            </el-text>
           </div>
         </li>
-
       </ul>
       <div class="slide-bullets">
         <ul class="bullets" >
@@ -99,22 +100,7 @@ function resumeAutoPlay() {
   border: #f8d8d8 solid 1px;
   overflow: hidden;
 }
-.banner-box{
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.container{
-  width: 14.5rem;
 
-  position: absolute;
-  top: 30%;
-  right: 10%;
-  overflow: hidden;
-}
-.detail{
-  max-height: 10rem;
-}
 .ani-name{
   text-align: center;
   font-size: 1.5rem;
@@ -126,20 +112,14 @@ function resumeAutoPlay() {
   font-size: 0.9rem;
   color: var(--banner-font);
   text-shadow: 0 0 2px #2c2c2c;
-  text-overflow: ellipsis;
   overflow: hidden;
   margin-bottom: 1rem;
 }
-.ani-state{
-  text-align: center;
-
-  margin-bottom: 0.5rem;
-}
-ul{
+.bullets,.banner{
   display: flex;
-}
-.slide-bullets{
-
+  width: 100%;
+  height: 100%;
+  will-change: transform;
 }
 .bullets li{
   width: 6%;
@@ -157,11 +137,6 @@ ul{
 .bullets li.active{
   background-color: var(--banner-active);
 }
-.banner{
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-}
 .banner li{
   width: 100%;
   height: 100%;
@@ -173,9 +148,5 @@ ul{
   height: 100%;
   object-fit: cover;
 }
-.detail li{
-  width: 100%;
-  height: 100%;
-  flex-shrink: 0;
-}
+
 </style>

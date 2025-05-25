@@ -2,6 +2,7 @@ package com.momoyouta.web_ani_server.service;
 
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.dto.WeekListStoreDTO;
 import com.momoyouta.web_ani_pojo.entity.Anime;
 import com.momoyouta.web_ani_pojo.entity.WeekListItem;
 
@@ -15,4 +16,6 @@ public interface WeekListService {
     Result<List<List<AnimeCardVO>>>  getQuarterAnime(Long quarter);
 
     Result<List<AnimeCardVO>> getDaylist(Integer day);
+
+    Result<List<WeekListStoreDTO>> getWeekListStore();
 }

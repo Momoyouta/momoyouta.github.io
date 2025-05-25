@@ -9,7 +9,7 @@
         <div class="name-box">
           <h2>{{ anime.anime.name }}</h2>
           <div class="subtitle">
-            <span>{{anime.animeInfo.startDate}}开播</span>
+            <span>{{startDate}}开播</span>
             <span>{{anime.animeInfo.company}}</span>
           </div>
           <ul class="state ">
@@ -27,10 +27,10 @@
             </li>
           </ul>
         </div>
-        <div class="score">
-          <div class="text">{{anime.animeRating.score}}</div>
-          <div class="star-box">
-            <span :class="['iconfont',item,'star']" v-for="item in starIcon"></span>
+        <div class="score" style="display:flex;align-items:center;">
+          <div style="text-align: center;font-size: 2rem;line-height: 2rem">{{anime.animeRating.score}}</div>
+          <div style="text-align: center;margin-left: 0.2rem">
+            <el-rate v-model="score" @change="handleScore" allow-half />
             <p>{{anime.animeRating.scoreTotal}}人评</p>
           </div>
         </div>
@@ -51,18 +51,29 @@
             <span class="iconfont icon-aixin"></span>
             加入追番
           </button>
-          <button class="btn">
-            <span class="iconfont icon-aixin"></span>
+          <button v-if="!favoriteStatus" class="btn" @click="favorite">
+            <el-icon><Star/></el-icon>
             收藏
+          </button>
+          <button v-else class="btn" @click="unfavorite">
+            <el-icon style="vertical-align: center"><StarFilled/></el-icon>
+            取消收藏
           </button>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import {onMounted, reactive,} from 'vue';
+import {computed, onMounted, reactive, ref,} from 'vue';
+import {formatDate} from "@/utils/commonHook.js";
+import axios from "axios";
+import request from "@/utils/request.js";
+import {resultPopMsg} from "@/utils/resultPopMsg.js";
+import {apiUtils} from "@/common/apiUtils.js";
+import {Star, StarFilled} from "@element-plus/icons-vue";
 const props = defineProps({
   anime:{
     type: Object,
@@ -70,29 +81,89 @@ const props = defineProps({
   }
 })
 onMounted(()=>{
-  starInit();
+  getFavoriteStatus();
 })
-const starIcon=reactive([]);
-function starInit(){
-  let num=props.anime.animeRating.score*1.0/10*5;
-  if(num%1===0){
-    for(let i=0;i<num;i++){
-      starIcon.push('icon-star-full');
+const startDate=computed(()=>{
+  return formatDate(props.anime.animeInfo.startDate*1000);
+})
+const score=ref(props.anime.animeRating.score/2)
+const handleScore=(val)=>{
+  score.value=props.anime.animeRating.score/2;
+  request({
+    url:apiUtils.user.score,
+    method:'get',
+    params:{
+      animeId:props.anime.anime.id,
+      score:val*2
     }
-    for(let i=0;i<5-num;i++){
-      starIcon.push('icon-star');
+  }).then((res)=>{
+    if(res.data.code===1){
+      resultPopMsg(1,'评分成功');
+    }else{
+      resultPopMsg(0,res.data.msg);
     }
-  }else{
-    num=Math.floor(num);
-    for(let i=0;i<num;i++){
-      starIcon.push('icon-star-full');
-    }
-    starIcon.push('icon-star-half');
-    for(let i=0;i<5-num-1;i++){
-      starIcon.push('icon-star');
-    }
-  }
+  }).catch((err)=>{
+    console.log(err);
+    resultPopMsg(0,res.data.msg);
+  });
+}
 
+const favoriteStatus=ref(false);
+function favorite(){
+ request({
+   url:apiUtils.user.favorite,
+   method:'get',
+   params:{
+      animeId:props.anime.anime.id,
+   }
+ }).then((res)=>{
+   if(res.data.code===1){
+     favoriteStatus.value=true;
+     resultPopMsg(1,'收藏成功');
+   }else{
+      resultPopMsg(0,res.data.msg);
+   }
+}).catch((err)=>{
+   console.log(err);
+   resultPopMsg(0,res.data.msg);
+ });
+}
+function unfavorite(){
+  request({
+    url:apiUtils.user.unfavorite,
+    method:'get',
+    params:{
+      animeId:props.anime.anime.id,
+    }
+  }).then((res)=>{
+    if(res.data.code===1){
+      favoriteStatus.value=false;
+      resultPopMsg(1,'取消收藏成功');
+    }else{
+      resultPopMsg(0,res.data.msg);
+    }
+  }).catch((err)=>{
+    console.log(err);
+    resultPopMsg(0,res.data.msg);
+  });
+}
+function getFavoriteStatus(){
+  request({
+    url:apiUtils.user.getFavoriteStatus,
+    method:'get',
+    params:{
+      animeId:props.anime.anime.id,
+    }
+  }).then((res)=>{
+    if(res.data.code===1){
+      favoriteStatus.value=res.data.data;
+    }else{
+      resultPopMsg(0,res.data.msg);
+    }
+  }).catch((err)=>{
+    console.log(err);
+    resultPopMsg(0,res.data.msg);
+  });
 }
 </script>
 
@@ -176,17 +247,22 @@ h2{
   padding-bottom: 1rem;
 }
 .btn-box{
+  display: flex;
+  flex-direction: row;
   position: absolute;
   right: 1.5rem;
   bottom: 1.5rem;
 }
 .btn{
+  display: flex;
+  align-items: center;
   padding: 0.5rem 1rem;
   border-radius: 1.2rem;
   margin-left: 1rem;
   border: none;
   background-color: var(--btn-login);
   color: #fff;
+  cursor: pointer;
 }
 .btn:hover{
   background-color: var(--btn-login-hover);
@@ -198,18 +274,7 @@ h2{
   bottom: 30%;
   border-right: var(--btn-login) solid 0.25rem;
 }
-.score .text{
-  text-align: center;
-  font-size: 2rem;
-}
-.star-box{
-  text-align: center;
-  margin-left: 0.2rem;
-}
-.star{
-  position: relative;
-  color: #f4c859;
-}
+
 
 .tags{
   width: 75%;

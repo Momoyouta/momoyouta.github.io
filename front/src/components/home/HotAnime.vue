@@ -46,7 +46,6 @@ function getData(){
   })
       .then(res => {
         const relayList=tranToCard(res.data.data);
-        console.log(relayList);
         aniList.push(...relayList);
         if(res.data.data.length<18){
           isAll=1;

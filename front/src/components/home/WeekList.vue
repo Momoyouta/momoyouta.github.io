@@ -6,7 +6,7 @@
      </span>
      <div class="nav">
        <ul class="nav-ul">
-         <li @click="changeList(index)" :class="{active:activeDay==index}" v-for="(day, index) in ['周一', '周二', '周三', '周四', '周五', '周六', '周日']">
+         <li @click="activeDay=index" :class="{active:activeDay===index}" v-for="(day, index) in ['周一', '周二', '周三', '周四', '周五', '周六', '周日']">
            <div class="title">
              {{day}}
            </div>
@@ -31,39 +31,46 @@ import axios from "axios";
 import {apiUtils} from "@/common/apiUtils.js";
 import {useCommonStore} from "@/store/commonStore.js";
 import {tranToCard} from "@/utils/animeCard.js";
+import {getActivePinia} from "pinia";
 const aniList=reactive([[],[],[],[],[],[],[]]);
 const activeDay=ref(0);
 const axios_is=axios.create({
   baseURL: `${apiUtils.BASIC}`,
 })
 const commonStore=useCommonStore();
-onMounted(()=>{
-  for(let i=0;i<7;i++){
-    changeList(i);
+ onMounted(async ()=>{
+   for(let i=0;i<7;i++){
+    await changeList(i);
   }
+  storeWeeklist();
 });
-function changeList(day){
-  activeDay.value=day
-  if(aniList[activeDay.value].length==0){
-    axios_is.get(`/user${apiUtils.WEEKLIST_DAY_RQ}`,{
+async function changeList(day){
+  if(aniList[day].length===0){
+    await axios_is.get(`/user${apiUtils.WEEKLIST_DAY_RQ}`,{
       params:{
         day: day+1,
       }
     })
     .then(res=>{
-      const relaylist=tranToCard(res.data.data);
-      aniList[day]=relaylist;
-      commonStore.seasonAnime[day].push(relaylist.map(item=>{
-        return {
-          id:item.id,
-          name:item.name,
-        }
-      }));
+      aniList[day]=tranToCard(res.data.data);
     })
     .catch(err=>{console.log(err)});
   }
 }
-
+function storeWeeklist(){
+  if(commonStore.seasonAnime.length === 0){
+    aniList.forEach((list,index)=>{
+      commonStore.seasonAnime.push(...list.map(item=>{
+        const anime=item.data;
+        return {
+          id:anime.id,
+          name:anime.name,
+          day:index+1
+        }
+      }));
+    })
+  }
+}
 
 </script>
 

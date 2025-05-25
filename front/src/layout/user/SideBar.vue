@@ -16,19 +16,21 @@ import {computed, onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {ROUTE_PATH} from "@/route/pathset.js";
 
-
+let userId=ref();
 const router=useRouter()
 const faPath='/user/'
-const ulItem=reactive([
-  {id:1,name:'个人主页',path:ROUTE_PATH.USER_PROFILE,icon:'home-g'},
+const ulItem=computed(() =>[
+  {id:2,name:'主页',path:`/home`,icon:'home-g'},
+  {id:1,name:'个人主页',path:`${ROUTE_PATH.USER_PROFILE}/${userId.value}`,icon:'home-g'},
   {id:0,name:'---',path:'#',icon:''},
-  {id:2,name:'番剧收藏',path:ROUTE_PATH.USER_FAVORITE,icon:'mulu'},
+  {id:3,name:'番剧收藏',path:`${ROUTE_PATH.USER_FAVORITE}/${userId.value}`,icon:'mulu'},
   {id:0,name:'---',path:'#',icon:''},
-  {id:3,name:'修改个人信息',path:ROUTE_PATH.USER_UPDATE_INFO,icon:'tuijian'},
+  {id:4,name:'修改个人信息',path:ROUTE_PATH.USER_UPDATE_INFO,icon:'tuijian'},
 ])
-const activeLi=ref(0);
+const activeLi=ref(1);
 onMounted(()=>{
   init()
+  userId.value=JSON.parse(localStorage.getItem('userInfo')).id;
 })
 function init(){
   const cpath=router.currentRoute.value.path;
@@ -47,6 +49,10 @@ function init(){
 }
 function routeChange(item,index){
   if(item.path==='#') return;
+  if(item.id==2){
+    router.push(item.path);
+    return;
+  }
   let path=faPath+item.path;
   router.push(path);
   activeLi.value=index;

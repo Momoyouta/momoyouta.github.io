@@ -25,7 +25,21 @@ export const apiUtils ={
     register:'/user/register',
     forgotPassword:'/user/forgotPassword',
     getCaptcha:'/user/captcha',
+
     user:{
         updateUserInfo:         `/user/updateUserInfo`,
+        followAnime:         `/user/followAnime`,
+        unFollowAnime:         `/user/unFollowAnime`,
+        updateFollowProcess:         `/user/updateFollowProcess`,
+        finishFollow:         `/user/finishFollow`,
+        score:         `/user/score`,
+        favorite:         `/user/favorite`,
+        unFavorite:         `/user/unFavorite`,
+        getFavoriteStatus:         `/user/getFavoriteStatus`,
+        unfavorite:         `/user/unFavorite`,
+        getFavoriteAnimes:         `/user/getFavoriteAnimes`,
     },
+    weeklist:{
+        getWeekListStore:         `/user/weeklist/getWeekListStore`,
+    }
 }

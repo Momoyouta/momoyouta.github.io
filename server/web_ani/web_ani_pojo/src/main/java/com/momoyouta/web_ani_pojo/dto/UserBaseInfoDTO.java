@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserBaseInfoDTO {
+    private String id;
     private String name;
     private String account;
     private int sex;

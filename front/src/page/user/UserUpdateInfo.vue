@@ -47,7 +47,7 @@
           <el-input v-model="userInfo.email" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item style="min-width: 560px" prop="birthday" label="生日">
-          <el-date-picker style="min-width: 560px" v-model="userInfo.birthday" type="date"/>
+          <el-date-picker style="min-width: 560px" v-model="userInfo.birthday" type="date" value-format="X"/>
         </el-form-item>
         <el-form-item style="min-width: 560px" prop="sex" label="性别">
           <el-radio-group v-model="userInfo.sex">
@@ -99,7 +99,7 @@ async function updateUserInfo(){
     url:apiUtils.user.updateUserInfo,
     data:{
       ...userInfo.value,
-      birthday:userInfo.value.birthday.getTime(),
+      birthday:userInfo.value.birthday,
     },
   })
   .then(res=>{

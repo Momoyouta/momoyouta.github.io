@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoyouta.web_ani_common.enumm.ResponseCode;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_common.utils.JwtUtil;
+import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
 import com.momoyouta.web_ani_pojo.VO.UserCacheVO;
 import com.momoyouta.web_ani_pojo.dto.RegisterDTO;
 import com.momoyouta.web_ani_pojo.dto.UserBaseInfoDTO;
@@ -115,6 +116,7 @@ public class UserServiceImpl implements UserService {
     public UserBaseInfoDTO getBaseInfo(String userId) {
         User user=userMapper.selectById(userId);
         return UserBaseInfoDTO.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .birthday(user.getBirthday())
                 .account(user.getAccount())
@@ -218,12 +220,54 @@ public class UserServiceImpl implements UserService {
                     .build();
             favoriteAnimeMapper.insert(favoriteTp);
         }else{
+            favoriteAnime.setScore(score);
             favoriteAnimeMapper.updateById(favoriteAnime);
         }
         return Result.success();
     }
 
     @Override
+    public Result<Boolean> getFavoriteStatus(Long animeId) {
+        //查找favorite表看用户是否收藏，favorite_status=1代表收藏
+        String userId=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        LambdaQueryWrapper<FavoriteAnime> qw=new LambdaQueryWrapper<>();
+        qw.eq(FavoriteAnime::getUserId,userId).eq(FavoriteAnime::getAnimeId,animeId);
+        FavoriteAnime favoriteAnime=favoriteAnimeMapper.selectOne(qw);
+        if(favoriteAnime==null){
+            return Result.success(false);
+        }
+        if(favoriteAnime.getFavoriteStatus()==1){
+            return Result.success(true);
+        }else{
+            return Result.success(false);
+        }
+    }
+
+    @Override
+    public Result<List<AnimeCardVO>> getFavoriteAnimes(String userId) {
+        log.info(userId);
+        //先从favorite中获取用户收藏的番剧,从anime和episodes表中获取信息填入AinimeCardVO
+        LambdaQueryWrapper<FavoriteAnime> qw=new LambdaQueryWrapper<>();
+        qw.eq(FavoriteAnime::getUserId,userId).eq(FavoriteAnime::getFavoriteStatus,1);
+        List<FavoriteAnime> favoriteAnimes=favoriteAnimeMapper.selectList(qw);
+        List<AnimeCardVO> animeCardVOS=new ArrayList<>();
+        for(FavoriteAnime favoriteAnime:favoriteAnimes){
+            Anime anime=animeMapper.selectById(favoriteAnime.getAnimeId());
+            if(anime==null){
+                continue;
+            }
+            AnimeCardVO animeCardVO=AnimeCardVO.builder()
+                    .anime(anime)
+                    .ep(0)
+                    .totalEps(0)
+                    .build();
+            animeCardVOS.add(animeCardVO);
+        }
+        return Result.success(animeCardVOS);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result<String> favorite(Long animeId) {
         String userId=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Anime anime=animeMapper.selectById(animeId);
@@ -238,8 +282,12 @@ public class UserServiceImpl implements UserService {
                 .status(0).build();
         LambdaQueryWrapper<FavoriteAnime> qw=new LambdaQueryWrapper<>();
         qw.eq(FavoriteAnime::getAnimeId,animeId).eq(FavoriteAnime::getUserId,userId);
-        if(favoriteAnimeMapper.selectCount(qw)==0) {
+        FavoriteAnime faAnime= favoriteAnimeMapper.selectOne(qw);
+        if(faAnime==null) {
             favoriteAnimeMapper.insert(favoriteAnime);
+        }else if(faAnime.getFavoriteStatus()==0){
+            faAnime.setFavoriteStatus(1);
+            favoriteAnimeMapper.updateById(faAnime);
         }else{
             return Result.error(ResponseCode.ERROR,"番剧已收藏");
         }
@@ -249,9 +297,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result<String> unFavorite(Long animeId) {
         String userId=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        LambdaQueryWrapper<FavoriteAnime> qw=new LambdaQueryWrapper<>();
-        qw.eq(FavoriteAnime::getAnimeId,animeId).eq(FavoriteAnime::getUserId,userId);
-        favoriteAnimeMapper.delete(qw);
+        LambdaUpdateWrapper<FavoriteAnime> qw=new LambdaUpdateWrapper<>();
+        qw.eq(FavoriteAnime::getAnimeId,animeId).eq(FavoriteAnime::getUserId,userId).set(FavoriteAnime::getFavoriteStatus,0);
+        favoriteAnimeMapper.update(qw);
         return Result.success();
     }
 
@@ -272,6 +320,8 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
+
+
 
 
 }

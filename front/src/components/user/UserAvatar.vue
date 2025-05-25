@@ -21,10 +21,11 @@
 <script setup>
 
 
-import {onMounted, reactive, ref} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {router} from "@/route/config.js";
 import {ROUTE_PATH} from "@/route/pathset.js";
 const userInfo=ref({});
+
 onMounted(()=>{
   const baseInfo=JSON.parse(localStorage.getItem("userInfo"));
   isLogin.value=baseInfo!==null;
@@ -32,11 +33,11 @@ onMounted(()=>{
 })
 
 //下拉项
-const dropDownItems=[
-  {path:ROUTE_PATH.USER_PROFILE,label:'个人主页'},
-  {path:ROUTE_PATH.USER_FAVORITE,label:'番剧收藏'},
+const dropDownItems=computed(() =>[
+  {path:`${ROUTE_PATH.USER_PROFILE}/${userInfo.value.id}`,label:'个人主页'},
+  {path:`${ROUTE_PATH.USER_FAVORITE}/${userInfo.value.id}`,label:'番剧收藏'},
   {path:ROUTE_PATH.USER_UPDATE_INFO,label:'个人信息修改'},
-];
+]);
 function handleJump(path){
   router.push(`/user/${path}`);
 }

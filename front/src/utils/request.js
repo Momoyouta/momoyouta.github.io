@@ -17,6 +17,7 @@ service.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
+
 async function request(originConfig) {
     //header是否存在
     originConfig.headers= originConfig.headers||{};
@@ -44,4 +45,6 @@ function handleTokenFailure(){
     localStorage.removeItem("roles");
     localStorage.removeItem("uesrInfo");
 }
+
+
 export default request;

@@ -1,5 +1,6 @@
 package com.momoyouta.web_ani_pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("favorite")
 public class FavoriteAnime {
     private String id;
     private String userId;

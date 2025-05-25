@@ -70,7 +70,7 @@ img{
   top:0;
   right:0;
   border-radius: 20%;
-  padding: 1%;
+  padding: 1% 5%;
   align-items: center;
   font-size: 70%;
   color: white;

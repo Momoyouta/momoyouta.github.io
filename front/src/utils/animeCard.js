@@ -1,13 +1,16 @@
-export function tranToCard(data){
+export function tranToCard(data,showType){
+    if(showType === null){
+        showType={
+            score: false,
+            state: true,
+            date: true,
+            name: true
+        }
+    }
     let anilist=[];
     for(let item of data){
         let anttp={
-            show:{
-                score: false,
-                state: true,
-                date: true,
-                name: true
-            },
+            show:showType,
             data: {
                 ...item.anime,
                 ep:item.ep,
