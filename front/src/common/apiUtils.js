@@ -38,6 +38,8 @@ export const apiUtils ={
         getFavoriteStatus:         `/user/getFavoriteStatus`,
         unfavorite:         `/user/unFavorite`,
         getFavoriteAnimes:         `/user/getFavoriteAnimes`,
+        getFavoriteAnimesByCondition: `/user/getFavoriteAnimesByCondition`,
+        updateWatchStatus:  `/user/updateWatchStatus`,
     },
     weeklist:{
         getWeekListStore:         `/user/weeklist/getWeekListStore`,

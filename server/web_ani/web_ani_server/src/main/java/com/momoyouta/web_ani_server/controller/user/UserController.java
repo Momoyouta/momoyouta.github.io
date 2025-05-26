@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_common.utils.JwtUtil;
 import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.VO.AnimeFavoriteCardVO;
+import com.momoyouta.web_ani_pojo.dto.FavoriteAnimeConditionDTO;
 import com.momoyouta.web_ani_pojo.dto.ForgotPasswordDTO;
 import com.momoyouta.web_ani_pojo.dto.RegisterDTO;
 import com.momoyouta.web_ani_pojo.dto.UserBaseInfoDTO;
@@ -116,9 +118,18 @@ public class UserController {
         return userService.getFavoriteAnimes(userId);
     }
 
-//    @GetMapping("/getFollowAnimes")
-//    @PreAuthorize("hasAuthority('user')")
-//    public Result<Boolean> getFollowAnimes(@RequestParam String userId) {
-//        return userService.getFollowAnimes(userId);
-//    }
+    @PostMapping("/getFavoriteAnimesByCondition")
+    @PreAuthorize("hasAuthority('user')")
+    public Result<List<AnimeFavoriteCardVO>> getFavoriteAnimesByCondition(
+            @RequestParam int offset,
+            @RequestParam int pageSize,
+            @RequestBody FavoriteAnimeConditionDTO condition) {
+        return userService.getFavoriteAnimesByCondition( offset, pageSize, condition);
+    }
+
+    @GetMapping("/updateWatchStatus")
+    @PreAuthorize("hasAuthority('user')")
+    public Result<String> updateWatchStatus(@RequestParam Long animeId,@RequestParam int status) {
+        return userService.updateWatchStatus(animeId,status);
+    }
 }

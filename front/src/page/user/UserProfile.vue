@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper" style="display: flex; justify-content: space-between;width: 100%;">
     <div class="content" style="flex: 3;min-height: 90vh;margin-right: 30px">
-      <div class="profile" style="display: flex; justify-content: flex-start;">
+      <div class="profile" style="display: flex; justify-content: flex-start;border-radius: 10px;overflow: hidden">
         <el-image src="https://s1.imagehub.cc/images/2025/05/13/2db4ba2782f81ee45ff4e3b68d6a8f66.md.jpg"
                   lazy
-                  style="width: 180px; height: 180px;"/>
+                  style="width: 180px; height: 180px;border-radius: 10px;overflow: hidden"/>
         <div style="margin-left: 20px">
           <p style="font-size: 1.5rem">{{user.name}}</p>
           <p style="font-size: 0.9rem;display: flex;align-items: center">Birthday：{{userBirthday}}
@@ -21,7 +21,7 @@
       <div style="display: flex; justify-content: space-between;min-height: 200px;margin-bottom: 30px;">
         <el-tabs class="recoment"
                  tab-position="right"
-                 style="flex: 15;margin-right: 10px;position: relative;">
+                 style="flex: 15;margin-right: 10px;position: relative;border-radius: 10px;overflow: hidden">
           <el-tab-pane label="本季" style="height: 100%;display: flex;justify-content: space-around;background-color: var(--side-bg);padding:0 10px;align-items: center">
               <AnimeCard style="width: 18%;font-size: 0.9rem" :ani="ani.data" :show-con="ani.show" v-for="ani in animesRecoment.season" :key="ani.id"></AnimeCard>
           </el-tab-pane>
@@ -39,11 +39,11 @@
         <el-tabs class="recoment"
                  @tab-click="dialogVisible = true"
                  tab-position="right"
-                 style="flex: 15;margin-right: 10px;position: relative;">
+                 style="flex: 15;margin-right: 10px;position: relative;border-radius: 10px;overflow: hidden">
           <el-tab-pane :label="userId===user.id?'编辑':'个人'"
                        style="height: 100%;display: flex;background-color: var(--side-bg);align-items: center">
             <el-scrollbar style="padding:10px 10px;">
-            <List :items="animeTp2" :n="6" :item-width="15">
+            <ListUl :items="animeTp2" :n="6" :item-width="15">
               <template #default="{ item: anime }">
                 <div style="display: flex;width: 100%;flex-wrap: wrap;padding: 5px;border-radius: 10px;background-color: rgba(227,102,68,0.3)" >
                   <div class="followCover" style="position: relative;" @click="handleGotoAnimeDetail(anime.id)">
@@ -59,7 +59,7 @@
                   </div>
                 </div>
               </template>
-            </List>
+            </ListUl>
             </el-scrollbar>
           </el-tab-pane>
           <el-tab-pane></el-tab-pane>
@@ -108,7 +108,7 @@ import {computed, onBeforeUnmount, onMounted, reactive, ref, render} from "vue";
 import {Female, Male} from "@element-plus/icons-vue";
 import AnimeCard from "@/components/common/AnimeCard.vue";
 import {router} from "@/route/config.js";
-import List from "@/components/common/List.vue";
+import ListUl from "@/components/common/ListUl.vue";
 import FollowBox from "@/components/common/FollowBox.vue";
 import {useCommonStore} from "@/store/commonStore.js";
 import {apiUtils} from "@/common/apiUtils.js";
@@ -321,9 +321,8 @@ async function getFavoriteAnimes(){
           end:anime.ep===anime.totalEps?1:0,
         }
       }));
-      console.log(animesFavorite);
       animesFavorite.sort((a,b)=>{
-        return a.score-b.score;
+        return b.score-a.score;
       });
       recomentInit();
     } else {
@@ -465,4 +464,5 @@ const favoriteHeaderRowStyle=()=>{
   bottom: 40%;
   left: -1rem;
 }
+
 </style>

@@ -3,10 +3,11 @@ package com.momoyouta.web_ani_server.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.momoyouta.web_ani_common.result.Result;
 import com.momoyouta.web_ani_pojo.VO.AnimeCardVO;
+import com.momoyouta.web_ani_pojo.VO.AnimeFavoriteCardVO;
 import com.momoyouta.web_ani_pojo.dto.RegisterDTO;
 import com.momoyouta.web_ani_pojo.dto.UserBaseInfoDTO;
 import com.momoyouta.web_ani_pojo.dto.UserTokenDTO;
-import org.springframework.stereotype.Service;
+import com.momoyouta.web_ani_pojo.dto.FavoriteAnimeConditionDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,4 +38,8 @@ public interface UserService {
     Result<Boolean> getFavoriteStatus(Long animeId);
 
     Result<List<AnimeCardVO>> getFavoriteAnimes(String userId);
+
+    Result<List<AnimeFavoriteCardVO>> getFavoriteAnimesByCondition(int offset, int pageSize, FavoriteAnimeConditionDTO condition);
+
+    Result<String> updateWatchStatus(Long animeId, int status);
 }

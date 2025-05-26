@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.momoyouta.web_ani_server.mapper.AnimeMapper">
+    <resultMap id="AnimeFavoriteCardVOMap" type="com.momoyouta.web_ani_pojo.VO.AnimeFavoriteCardVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="image" column="image"/>
+        <result property="description" column="description"/>
+        <result property="score" column="score"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ep" column="ep"/>
+        <result property="totalEps" column="total_eps"/>
+        <result property="status" column="status"/>
+        <result property="userScore" column="user_score"/>
+        <result property="favoriteTime" column="favorite_time"/>
+    </resultMap>
+
     <select id="getByDirCondition" resultType="com.momoyouta.web_ani_pojo.entity.Anime">
         SELECT
         base.* ,info.start_date  FROM (
@@ -21,4 +35,39 @@
         LIMIT
         #{offset}, #{pageSize}
     </select>
+
+    <select id="selectFavoriteAnimesByCondition" resultMap="AnimeFavoriteCardVOMap">
+        SELECT
+            a.id,
+            a.name,
+            a.image,
+            a.description,
+            a.score,
+            a.update_time,
+            e.ep,
+            e.total_eps,
+            f.status,
+            f.score AS user_score,
+            f.favorite_time
+        FROM favorite f
+        JOIN anime a ON f.anime_id = a.id
+        LEFT JOIN episodes e ON a.id = e.anime_id
+        WHERE f.user_id = #{userId}
+          AND f.favorite_status = 1
+          <if test="condition.status != null and condition.status != 0">
+            AND f.status = #{condition.status}
+          </if>
+        ORDER BY
+        <choose>
+            <when test="condition.orderr == 0">f.favorite_time DESC</when>
+            <when test="condition.orderr == 1">a.score DESC</when>
+            <when test="condition.orderr == 2">f.score DESC</when>
+            <when test="condition.orderr == 3">f.score DESC</when>
+            <otherwise>f.favorite_time DESC</otherwise>
+        </choose>
+        LIMIT
+                #{offset}, #{pageSize}
+    </select>
 </mapper>
+
+

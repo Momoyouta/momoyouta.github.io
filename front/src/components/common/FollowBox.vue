@@ -8,7 +8,7 @@
     <div style="display: flex;height: calc(100% - 2rem)">
       <div class="left" style="width: 40%;border-right: black solid 0.1rem;">
         <el-scrollbar wrap-style="padding: 0.5rem">
-          <List :items="animeTp" :n="4" :item-width="24">
+          <ListUl :items="animeTp" :n="4" :item-width="24">
             <template #default="{ item: anime ,index}">
               <div style="display: flex;width: 100%;flex-wrap: wrap;padding: 5px;border-radius: 10px;background-color: rgba(227,102,68,0.3)" >
                 <div class="followCover" style="position: relative;"@click="chooseItem(index)">
@@ -24,7 +24,7 @@
                 </div>
               </div>
             </template>
-          </List>
+          </ListUl>
         </el-scrollbar>
       </div>
       <div class="right" style="width: calc(100% - 0.1rem)">
@@ -71,7 +71,7 @@
 
 <script setup>
 import { ref, computed, reactive, watch, onMounted } from 'vue'
-import List from "@/components/common/List.vue";
+import ListUl from "@/components/common/ListUl.vue";
 import {router} from "@/route/config.js";
 const props = defineProps({
   animeTp: {

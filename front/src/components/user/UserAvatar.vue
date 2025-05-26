@@ -35,7 +35,7 @@ onMounted(()=>{
 //下拉项
 const dropDownItems=computed(() =>[
   {path:`${ROUTE_PATH.USER_PROFILE}/${userInfo.value.id}`,label:'个人主页'},
-  {path:`${ROUTE_PATH.USER_FAVORITE}/${userInfo.value.id}`,label:'番剧收藏'},
+  {path:ROUTE_PATH.USER_FAVORITE,label:'番剧收藏'},
   {path:ROUTE_PATH.USER_UPDATE_INFO,label:'个人信息修改'},
 ]);
 function handleJump(path){

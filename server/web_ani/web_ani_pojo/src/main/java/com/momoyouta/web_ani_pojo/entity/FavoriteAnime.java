@@ -17,6 +17,7 @@ public class FavoriteAnime {
     private String id;
     private String userId;
     private Long animeId;
+    private Long favoriteTime;
     private BigDecimal score;
     private int favoriteStatus;
     private int status;

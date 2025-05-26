@@ -1,5 +1,5 @@
 export function tranToCard(data,showType){
-    if(showType === null){
+    if(showType === undefined){
         showType={
             score: false,
             state: true,

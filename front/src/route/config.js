@@ -78,7 +78,7 @@ const routes =[
                 components:{SideNavbar:userSidebar,main:EmptyComponent,TopNavbar:userTopbar},
                 children:[
                     {path:`${ROUTE_PATH.USER_PROFILE}/:userId`,component:UserProfile,props: true},
-                    {path:`${ROUTE_PATH.USER_FAVORITE}/:userId`,component:UserFavorites,props: true},
+                    {path:`${ROUTE_PATH.USER_FAVORITE}`,component:UserFavorites,props: true},
                     {path:ROUTE_PATH.USER_UPDATE_INFO,component:UserUpdateInfo},
                 ]
             },
